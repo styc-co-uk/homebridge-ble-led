@@ -1,4 +1,4 @@
-const Device = require('./Device');
+const Device = require('./device');
 
 let Service, Characteristic;
 

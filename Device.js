@@ -62,11 +62,11 @@ module.exports = class Device {
     }
     await this.peripheral.connectAsync();
     this.connected = true;
-    //console.log(this.connected);
+    console.log(this.connected);
     const { characteristics } =
       await this.peripheral.discoverSomeServicesAndCharacteristicsAsync(
-        ["fff0"],
-        ["fff3"]
+        ["ffda"],
+        ["ffd9"]
       );
     console.log(characteristics);
     this.write = characteristics[0];
@@ -84,7 +84,7 @@ module.exports = class Device {
     if (!this.connected) await this.connectAndGetWriteCharacteristics();
     if (this.write) {
       const buffer = Buffer.from(
-        `7e0004${status ? "01" : "00"}00000000ef`,
+        `cc${status ? "23" : "24"}33`,
         "hex"
       );
       console.log("Write:", buffer);
