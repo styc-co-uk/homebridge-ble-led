@@ -101,17 +101,7 @@ module.exports = class Device {
       console.log('Wrote buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('hex'), handleWrite);
       setTimeout( async () => {
         await this.peripheral.disconnectAsync()
-      },50);
-    });
-    //   await this.peripheral.connect();
-    // } else {
-    //   console.log ('BLE device %s already connected.', this.uuid);
-    // };
-    // this.connected += 1;
-    // await this.peripheral.writeHandleAsync(handleWrite,bufferWrite,true);
-    // console.log('Writing buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('utf8'), handleWrite);
-    // this.connected -= 1;
-    // .then(asnc ()if (!this.connected) await this.peripheral.disconnectAsync().then(() => this.connected = false);
+      },50); // wait here otherwise won't write
   }
 
   // async disconnect() {
