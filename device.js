@@ -28,7 +28,7 @@ const noble = require("@abandonware/noble");
 module.exports = class Device {
   constructor(platform,uuid) {
     this.uuid = uuid;
-    // this.connected = false;
+    this.connected = false;
     this.power = false;
     this.brightness = 100;
     // this.hue = 0;
@@ -63,10 +63,9 @@ module.exports = class Device {
         await noble.stopScanningAsync();
         this.peripheral = peripheral;
         console.log('Device %s found.', this.uuid);
+	this.getState();
       };
     });
-
-    getState()
 
     // noble.on("discover", async (peripheral) => {
     //   console.log(peripheral.uuid, peripheral.advertisement.localName);
@@ -107,7 +106,7 @@ module.exports = class Device {
       setTimeout( async () => {
         await this.peripheral.disconnectAsync()
       },50); // wait here otherwise won't write
-    };
+    });
   }
 
   async writeHandle(handleWrite,bufferWrite) {
