@@ -113,6 +113,7 @@ module.exports = class Device {
   // }
 
   async set_power(status) {
+    console.log('Setting power to %s.' status ? 'ON' : 'OFF')
     const handleWrite = 0x0009;
     const bufferWrite = Buffer.from([0xcc,0x24-status,0x33]);
     this.writeHandle(handleWrite,bufferWrite);
@@ -135,7 +136,7 @@ module.exports = class Device {
   // }
 
   async set_brightness(level) {
-    console.log('Brightness %s', level);
+    console.log('Setting power to %s\%.' level)
   }
 
   // async set_brightness(level) {
