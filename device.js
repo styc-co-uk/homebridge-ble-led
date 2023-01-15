@@ -58,7 +58,7 @@ module.exports = class Device {
 
     noble.on('discover', async (peripheral) => {
       const periId = peripheral.id.toLowerCase();
-      console.log(periId,peripheral.advertisement.localName);
+      // console.log(periId,peripheral.advertisement.localName);
       if (periId == this.uuid) {
         await noble.stopScanningAsync();
         this.peripheral = peripheral;
@@ -93,14 +93,14 @@ module.exports = class Device {
 
   async writeHandle(handleWrite,bufferWrite) {
     if (!this.connected) {
-      await this.peripheral.connectAsync();
       console.log ('Connecting BLE device %s.', this.uuid);
+      await this.peripheral.connectAsync();
     } else {
       console.log ('BLE device %s already connected.', this.uuid);
     };
     this.connected += 1;
     await this.peripheral.writeHandleAsync(handleWrite,bufferWrite,true);
-    console.log('Writing buffer \'%s\' to handle \'%s\'.', bufferWrite, handleWrite);
+    console.log('Writing buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('utf8'), handleWrite);
     this.connected -= 1;
     if (!this.connected) await this.peripheral.disconnectAsync().then(() => this.connected = false);
   }
