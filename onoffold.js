@@ -19,9 +19,9 @@ noble.on('discover', async (peripheral) => {
     await noble.stopScanningAsync();
     console.log('Device found.');
     console.log(peripheral);
-    const handleWrite = 0x0009;
+    const handleToWrite = 0x0009;
     await peripheral.connectAsync().then(() => {var connected = true});
-    await peripheral.writeHandleAsync(0x0009, Buffer.from([0xcc,0x24,0x33]), true)
+    await peripheral.writeHandleAsync(handleToWrite, Buffer.from([0xcc,0x24,0x33]), true)
     .then( () => {
       peripheral.disconnect();
       //process.exit(0);
