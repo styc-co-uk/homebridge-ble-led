@@ -23,15 +23,15 @@ noble.on('discover', async (peripheral) => {
     peripheral.connect();
     peripheral.once('connect', (callback) => {
       console.log('Connected');
-      peripheral.writeHandle(handleWrite, Buffer.from([0xcc,0x24,0x33]),true)
+      peripheral.writeHandle(handleWrite, Buffer.from([0xcc,0x23,0x33]),true)
     });
     peripheral.once(`handleWrite${handleWrite}`, () => {
       console.log('Wrote');
+      setTimeout( async () => {
+	await peripheral.disconnectAsync()
+      },50);
+      // process.exit(0);
     });
-    setTimeout( async () => {
-      await peripheral.disconnect();
-      process.exit(0);
-    },1000);
   };
 });
 
