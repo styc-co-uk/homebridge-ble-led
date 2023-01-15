@@ -92,15 +92,15 @@ module.exports = class Device {
   // }
 
   async writeHandle(handleWrite,bufferWrite) {
-    peripheral.connect();
-    peripheral.once('connect', (callback) => {
+    this.peripheral.connect();
+    this.peripheral.once('connect', (callback) => {
       console.log ('Connected to %s.', this.uuid);
-      peripheral.writeHandle(handleWrite, bufferWrite,true)
+      this.peripheral.writeHandle(handleWrite, bufferWrite,true)
     });
-    peripheral.once(`handleWrite${handleWrite}`, () => {
+    this.peripheral.once(`handleWrite${handleWrite}`, () => {
       console.log('Wrote buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('hex'), handleWrite);
       setTimeout( async () => {
-        await peripheral.disconnectAsync()
+        await this.peripheral.disconnectAsync()
       },50);
     });
     //   await this.peripheral.connect();
