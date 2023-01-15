@@ -20,8 +20,6 @@ noble.on('discover', async (peripheral) => {
     console.log('Device found.');
     // console.log(peripheral);
     const handleWrite = 0x0009;
-    const handleListen = 0x000c;
-
     peripheral.connect();
     peripheral.once('connect', (callback) => {
       console.log('Connected');

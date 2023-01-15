@@ -19,8 +19,11 @@ noble.on('discover', async (peripheral) => {
     await noble.stopScanningAsync();
     console.log('Device found.');
     console.log(peripheral);
+    const handleWrite = 0x0009;
     await peripheral.connectAsync();
-    peripheral.writeHandle(0x0009, new Buffer([0xcc,0x23,0x33]));
+    await peripheral.writeHandleAsync(0x0009, new Buffer([0xcc,0x23,0x33]));
+    await peripheral.disconnectAsync();
+    process.exit(0);
   };
 });
 
