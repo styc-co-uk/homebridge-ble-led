@@ -26,8 +26,8 @@ const noble = require("@abandonware/noble");
 // }
 
 module.exports = class Device {
-  constructor(uuid) {
-    this.uuid = uuid.toLowerCase();
+  constructor(platform,uuid) {
+    this.uuid = uuid;
     this.connected = false;
     this.power = false;
     this.brightness = 100;

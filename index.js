@@ -36,7 +36,7 @@ function LedStrip(log, config, api) {
   this.log('all event handler was setup.');
 
   if (!this.config.uuid) return;
-  this.uuid = this.config.uuid;
+  this.uuid = this.config.uuid.toLowerCase();
 
   this.device = new Device(this,this.uuid);
   this.log('Setting up BLE device %s.', this.uuid);
