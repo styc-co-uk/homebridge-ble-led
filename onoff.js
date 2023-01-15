@@ -21,7 +21,7 @@ noble.on('discover', async (peripheral) => {
     console.log(peripheral);
     const handleWrite = 0x0009;
     await peripheral.connectAsync();
-    await peripheral.writeHandleAsync(handleWrite, Buffer.from([0xcc,0x24,0x33]), true);
+    peripheral.writeHandle(handleWrite, Buffer.from([0xcc,0x24,0x33]), true);
     await peripheral.disconnectAsync();
     process.exit(0);
   };
