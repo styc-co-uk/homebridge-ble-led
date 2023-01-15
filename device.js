@@ -138,6 +138,9 @@ module.exports = class Device {
 
   async set_brightness(level) {
     console.log('Setting power to %s\%.', level);
+    const handleWrite = 0x0009;
+    const bufferWrite = Buffer.from([0x56,Array(3).fill(Math.round(0xff*level/100)),0x00,0xf0,0xaa].flat());
+    this.writeHandle(handleWrite,bufferWrite);
   }
 
   // async set_brightness(level) {
