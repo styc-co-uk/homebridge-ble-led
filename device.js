@@ -28,12 +28,12 @@ const noble = require("@abandonware/noble");
 module.exports = class Device {
   constructor(platform,uuid) {
     this.uuid = uuid;
-    this.connected = false;
+    // this.connected = false;
     this.power = false;
     this.brightness = 100;
-    this.hue = 0;
-    this.saturation = 0;
-    this.l = 0.5;
+    // this.hue = 0;
+    // this.saturation = 0;
+    // this.l = 0.5;
     this.peripheral = undefined;
 
     noble.on('stateChange', async (state) => {
@@ -66,6 +66,8 @@ module.exports = class Device {
       };
     });
 
+    getState()
+
     // noble.on("discover", async (peripheral) => {
     //   console.log(peripheral.uuid, peripheral.advertisement.localName);
     //   if (peripheral.uuid == this.uuid) {
@@ -90,6 +92,23 @@ module.exports = class Device {
   //   console.log(characteristics);
   //   this.write = characteristics[0];
   // }
+
+  async getState() {
+    const handleWrite = 0x0009;
+    this.peripheral.connect();
+    this.peripheral.once('connect', (callback) => {
+      console.log ('Connected to %s.', this.uuid);
+      this.peripheral.writeHandle(handleWrite, Buffer.from([0xef,0x01,0x77]),true)
+    });
+    this.peripheral.on('handleNotify', (handle,value) => {
+      console.log('Received state buffer \'%w\'',value.toString('hex'));
+      this.power = (0x24-value[2]);
+      this.brightness = Math.round((value[6]+value[7]+value[8])/0xff/3)
+      setTimeout( async () => {
+        await this.peripheral.disconnectAsync()
+      },50); // wait here otherwise won't write
+    };
+  }
 
   async writeHandle(handleWrite,bufferWrite) {
     this.peripheral.connect();
@@ -116,6 +135,7 @@ module.exports = class Device {
   async set_power(status) {
     console.log('Setting power to %s.', status ? 'ON' : 'OFF');
     const handleWrite = 0x0009;
+    this.power = status;
     const bufferWrite = Buffer.from([0xcc,0x24-status,0x33]);
     await this.writeHandle(handleWrite,bufferWrite);
   }
@@ -139,6 +159,7 @@ module.exports = class Device {
   async set_brightness(level) {
     console.log('Setting power to %s\%.', level);
     const handleWrite = 0x0009;
+    this.brightness = level
     const bufferWrite = Buffer.from([0x56,Array(3).fill(Math.round(0xff*level/100)),0x00,0xf0,0xaa].flat());
     await this.writeHandle(handleWrite,bufferWrite);
   }
