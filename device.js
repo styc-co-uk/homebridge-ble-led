@@ -92,17 +92,26 @@ module.exports = class Device {
   // }
 
   async writeHandle(handleWrite,bufferWrite) {
-    if (!this.connected) {
-      console.log ('Connecting BLE device %s.', this.uuid);
-      await this.peripheral.connectAsync();
-    } else {
-      console.log ('BLE device %s already connected.', this.uuid);
-    };
-    this.connected += 1;
-    await this.peripheral.writeHandleAsync(handleWrite,bufferWrite,true);
-    console.log('Writing buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('utf8'), handleWrite);
-    this.connected -= 1;
-    .then(async () => {if (!this.connected) await this.peripheral.disconnectAsync().then(() => this.connected = false)});
+    peripheral.connect();
+    peripheral.once('connect', (callback) => {
+      console.log ('Connected to %s.', this.uuid);
+      peripheral.writeHandle(handleWrite, bufferWrite,true)
+    });
+    peripheral.once(`handleWrite${handleWrite}`, () => {
+      console.log('Wrote buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('hex'), handleWrite);
+      setTimeout( async () => {
+        await peripheral.disconnectAsync()
+      },50);
+    });
+    //   await this.peripheral.connect();
+    // } else {
+    //   console.log ('BLE device %s already connected.', this.uuid);
+    // };
+    // this.connected += 1;
+    // await this.peripheral.writeHandleAsync(handleWrite,bufferWrite,true);
+    // console.log('Writing buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('utf8'), handleWrite);
+    // this.connected -= 1;
+    // .then(asnc ()if (!this.connected) await this.peripheral.disconnectAsync().then(() => this.connected = false);
   }
 
   // async disconnect() {
