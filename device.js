@@ -102,7 +102,7 @@ module.exports = class Device {
     await this.peripheral.writeHandleAsync(handleWrite,bufferWrite,true);
     console.log('Writing buffer \'%s\' to handle \'%s\'.', bufferWrite.toString('utf8'), handleWrite);
     this.connected -= 1;
-    if (!this.connected) await this.peripheral.disconnectAsync().then(() => this.connected = false);
+    .then(async () => {if (!this.connected) await this.peripheral.disconnectAsync().then(() => this.connected = false)});
   }
 
   // async disconnect() {
