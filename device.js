@@ -102,6 +102,7 @@ module.exports = class Device {
       setTimeout( async () => {
         await this.peripheral.disconnectAsync()
       },50); // wait here otherwise won't write
+    });
   }
 
   // async disconnect() {
@@ -113,7 +114,7 @@ module.exports = class Device {
   // }
 
   async set_power(status) {
-    console.log('Setting power to %s.' status ? 'ON' : 'OFF')
+    console.log('Setting power to %s.', status ? 'ON' : 'OFF');
     const handleWrite = 0x0009;
     const bufferWrite = Buffer.from([0xcc,0x24-status,0x33]);
     this.writeHandle(handleWrite,bufferWrite);
@@ -136,7 +137,7 @@ module.exports = class Device {
   // }
 
   async set_brightness(level) {
-    console.log('Setting power to %s\%.' level)
+    console.log('Setting power to %s\%.', level);
   }
 
   // async set_brightness(level) {
