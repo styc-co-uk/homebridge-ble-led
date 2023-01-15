@@ -116,7 +116,7 @@ module.exports = class Device {
   async set_power(status) {
     const handleWrite = 0x0009;
     const bufferWrite = Buffer.from([0xcc,0x24-status,0x33]);
-    writeHandle(handleWrite,bufferWrite);
+    this.writeHandle(handleWrite,bufferWrite);
   }
 
   // async set_power(status) {
