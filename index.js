@@ -24,23 +24,22 @@ function LedStrip(log, config, api) {
     .getCharacteristic(Characteristic.Brightness)
     .on('get', this.getBrightness.bind(this))
     .on('set', this.setBrightness.bind(this));
-  this.bulb
-    .getCharacteristic(Characteristic.Hue)
-    .on('get', this.getHue.bind(this))
-    .on('set', this.setHue.bind(this));
-  this.bulb
-    .getCharacteristic(Characteristic.Saturation)
-    .on('get', this.getSaturation.bind(this))
-    .on('set', this.setSaturation.bind(this));
+  // this.bulb
+  //   .getCharacteristic(Characteristic.Hue)
+  //   .on('get', this.getHue.bind(this))
+  //   .on('set', this.setHue.bind(this));
+  // this.bulb
+  //   .getCharacteristic(Characteristic.Saturation)
+  //   .on('get', this.getSaturation.bind(this))
+  //   .on('set', this.setSaturation.bind(this));
 
   this.log('all event handler was setup.');
 
   if (!this.config.uuid) return;
   this.uuid = this.config.uuid;
 
-  this.log('Device UUID:', this.uuid);
-
-  this.device = new Device(this.uuid);
+  this.device = new Device(this,this.uuid);
+  this.log('Setting up BLE device %s.', this.uuid);
 }
 
 LedStrip.prototype = {
@@ -68,21 +67,21 @@ LedStrip.prototype = {
     this.log('Homekit Set Brightness', brightness);
     this.device.set_brightness(brightness);
     callback(null);
-  },
-  getHue: function (callback) {
-    callback(null, this.device.hue);
-  },
-  setHue: function (hue, callback) {
-    this.log('Homekit Set Hue', hue);
-    this.device.set_hue(hue);
-    callback(null);
-  },
-  getSaturation: function (callback) {
-    callback(null, this.device.saturation);
-  },
-  setSaturation: function (saturation, callback) {
-    this.log('Homekit Set Saturation', saturation);
-    this.device.set_saturation(saturation);
-    callback(null);
-  }
+  }//,
+  // getHue: function (callback) {
+  //   callback(null, this.device.hue);
+  // },
+  // setHue: function (hue, callback) {
+  //   this.log('Homekit Set Hue', hue);
+  //   this.device.set_hue(hue);
+  //   callback(null);
+  // },
+  // getSaturation: function (callback) {
+  //   callback(null, this.device.saturation);
+  // },
+  // setSaturation: function (saturation, callback) {
+  //   this.log('Homekit Set Saturation', saturation);
+  //   this.device.set_saturation(saturation);
+  //   callback(null);
+  // }
 };
